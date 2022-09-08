@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-}
-
-module.exports = nextConfig
+module.exports = {
+	webpack: (config) => {
+		// Unset client-side javascript that only works server-side
+		config.resolve.fallback = { fs: false, module: false };
+		return config;
+	},
+	reactStrictMode: true,
+	swcMinify: true,
+};
