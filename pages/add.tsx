@@ -6,11 +6,11 @@ export default function Add() {
 		<div>
 			{/* Header - no complete */}
 			{/* Content */}
-			<Content>test</Content>
+			<Content>폰트 테스트</Content>
 		</div>
 	);
 }
 
 const Content = styled.div`
-	${tw`text-[10px]`}
+	${tw`text-[24px]`}
 `;
