@@ -2,8 +2,8 @@
 const px0to10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) };
 const px0to100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
 const px0to200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
-const px0to1000 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
-const px0to2000 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
+const px0to1000 = { ...Array.from(Array(1001)).map((_, i) => `${i}px`) };
+const px0to2000 = { ...Array.from(Array(2001)).map((_, i) => `${i}px`) };
 
 module.exports = {
 	purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
