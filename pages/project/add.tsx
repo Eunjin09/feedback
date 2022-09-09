@@ -12,5 +12,5 @@ export default function Add() {
 }
 
 const Content = styled.div`
-	${tw`text-[24px]`}
+	${tw`w-full text-[24px]`}
 `;
