@@ -3,7 +3,7 @@ import tw from "twin.macro";
 
 export default function Add() {
 	return (
-		<div>
+		<Background>
 			{/* Header - no complete */}
 			{/* Content */}
 			<Content>
@@ -23,10 +23,11 @@ export default function Add() {
 					</ButtonGroup>
 				</Box>
 			</Content>
-		</div>
+		</Background>
 	);
 }
 
+const Background = styled.div``;
 const Content = styled.div`
 	${tw`w-full min-h-[100vh] bg-[#EEEEEE] flex flex-col items-center py-100`}
 `;
