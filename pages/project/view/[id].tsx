@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import tw from "twin.macro";
+// tailwind <-> emotion, styled-components
 
 export default function View() {
 	return (
@@ -21,7 +22,12 @@ export default function View() {
 						<ul>
 							{[0, 1, 2, 3].map((v, key, arr) => {
 								return (
-									<li className={`flex justify-between py-10 ${key !== arr.length - 1 && "border-b-1"}`} key={key}>
+									<li
+										className={`flex justify-between py-10 ${
+											key !== arr.length - 1 && "border-b-1"
+										}`}
+										key={key}
+									>
 										<div className="w-100">Human{v}</div>
 										<div className="flex-1">안녕하세요</div>
 										<div>
