@@ -1,8 +1,54 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-// tailwind <-> emotion, styled-components
+import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { NextPageContext } from "next";
+
+interface IDetailProps {
+	serverData: IProjectViewInfo;
+}
+
+interface IProjectViewInfo {
+	id: number;
+	userId: number;
+	userNickname: string;
+	imageUrl: string;
+	title: string;
+	intro: string;
+	content: string;
+	tags: Array<string>;
+}
+
+async function getProjectInfoById(id: number) {
+	return await axios.get(`http://localhost:5001/detail/${id}`);
+}
 
 export default function View() {
+	const { query: params } = useRouter();
+
+	const { data } = useQuery<IProjectViewInfo>(
+		["PrjDetInfo", params.id],
+		async () => {
+			if (params.id) {
+				const response = await getProjectInfoById(Number(params.id));
+				return response.data;
+			}
+		},
+		{
+			// initialData: {},
+		}
+	);
+
+	if (!data) {
+		return (
+			<Background>
+				<Wrapper>없는 프로젝트 입니다.</Wrapper>
+			</Background>
+		);
+	}
+
 	return (
 		<Background>
 			<Wrapper>
@@ -12,9 +58,10 @@ export default function View() {
 				</Box>
 				<Box className="content">
 					<div className="h-500 rounded-10 bg-[#DDDDDD]"></div>
-					<div className="p-40 text-36">제목</div>
-					<div className="px-40">소개글</div>
-					<div className="p-40">#tag #tag2</div>
+					<div className="p-40 pb-10 text-36">{data.title}</div>
+					<div className="px-40 pb-20">{data.userNickname}</div>
+					<div className="px-40">{data.intro}</div>
+					<div className="p-40">{data.tags.join(" ")}</div>
 				</Box>
 				<Box className="comment">
 					<div className="p-40 pb-10 text-24">Comments (12)</div>
@@ -65,3 +112,15 @@ const Box = styled.div`
 		${tw`flex items-center justify-between p-30`}
 	}
 `;
+
+// export async function getServerSideProps(context: NextPageContext) {
+// 	const params = context.query;
+
+// 	const response = await getProjectInfoById(Number(params.id));
+
+// 	return {
+// 		props: {
+// 			serverData: response,
+// 		},
+// 	};
+// }
