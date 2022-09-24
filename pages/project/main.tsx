@@ -1,8 +1,19 @@
 import styled, { css } from "styled-components";
 import tw from "twin.macro";
 import Image from "next/image";
+import {
+  useQuery,
+  useQueryClient,
+} from 'react-query';
+import axios from "axios";
 
 export default function Main() {
+ const queryClient = useQueryClient()
+
+ const {data} = useQuery('post', () => 
+  axios("http://localhost:3003/post")
+ );
+ 
   return (
     <Wrap>
       <ProjectWrap>
@@ -10,7 +21,7 @@ export default function Main() {
           <h1>프로젝트</h1>
           <Filter>
             <li>
-              <input type="radio" name="filter" />
+            <input type="radio" name="filter" />
               <label htmlFor="feedback">피드백</label>
             </li>
             <li>
@@ -20,30 +31,36 @@ export default function Main() {
         </Filter>
         </Title>
           <ul>
-            <Content>
-               <PostImg>
-                <div>
-                  <h3 className="font-bold mb-8">디스콰이엇</h3>
-                  <div>
-                    <span className="mr-6 bg-neutral-700">피드백</span>
-                    <span className="bg-amber-400">이벤트</span>
-                  </div>
-                </div>
-               </PostImg>
-               <Intro>디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다 디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다 디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다.디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다 디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다</Intro>
-               <Keyword>
-                <span>#커뮤니티</span>
-                <span>#IT</span>
-                <span>#스타트업</span>
-               </Keyword>
-               <PostInfo className="flex justify-between mt-12">
-                <div className="flex items-center">
-                  <div className="img w-25 h-25 rounded-full mr-5 "></div>
-                  <span>유저닉네임</span>
-                </div>
-                <p>2022.09.09 ~ 2022.09.11</p>
-               </PostInfo>
-            </Content>
+            {
+             data && data.data.map((e:any,i:any)=>{
+              return(
+                <Content key="e.id">
+                  <PostImg>
+                    <div>
+                      <h3 className="font-bold mb-8">{e.title}</h3>
+                      <div>
+                        <span className="mr-6 bg-neutral-700">피드백</span>
+                        <span className="bg-amber-400">이벤트</span>
+                      </div>
+                    </div>
+                  </PostImg>
+                  <Intro>디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다 디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다 디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다.디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다 디스콰이엇은 사이트를 등록하고 볼 수 있는 프로젝트입니다</Intro>
+                  <Keyword>
+                    <span>#커뮤니티</span>
+                    <span>#IT</span>
+                    <span>#스타트업</span>
+                  </Keyword>
+                  <PostInfo className="flex justify-between mt-12">
+                    <div className="flex items-center">
+                      <div className="img w-25 h-25 rounded-full mr-5 "></div>
+                      <span>유저닉네임</span>
+                    </div>
+                    <p>2022.09.09 ~ 2022.09.11</p>
+                  </PostInfo>
+                </Content>
+              )
+             })
+            }
           </ul>
       </ProjectWrap>
       <SideWrap>
@@ -51,7 +68,6 @@ export default function Main() {
         <RankWeek>
           <li className="mb-24 h-158">
             <img src="" alt="" />
-            {/* <Image src="" alt="" /> */}
             <div className="pl-20">
               <h4>프로젝트명</h4>
               <p>프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글</p>
@@ -71,7 +87,6 @@ export default function Main() {
               <p>프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글</p>
             </div>
           </li>
-
         </RankWeek>
         <h2>일간 인기순</h2>
         <RankDay>
@@ -139,10 +154,11 @@ export default function Main() {
 
 const Wrap = styled.div`
 padding: 3.65vw 75px;
+height: auto;
 `
+
 //** 프로젝트 **//
 const ProjectWrap = styled.section`
-overflow: hidden;
 display: inline-block;
 width: 60%;
 vertical-align: top;
@@ -159,7 +175,6 @@ align-items: center;
 display: flex;
 justify-content: space-between;
 `
-
 const Filter = styled.ul`
   float: right;
   display: flex;
@@ -180,7 +195,6 @@ label {
   margin-left: 8px;
 }
 `
-
 const Content = styled.li`
 width: 100%;
 padding: 15px;
@@ -223,7 +237,6 @@ display: -webkit-box;
 color: #505050;
 margin: 12px 0;
 `
-
 const Keyword = styled.div`
   span {
     padding: 6px 18px;
@@ -234,7 +247,6 @@ const Keyword = styled.div`
     font-size: 12px;
   }
 `
-
 const PostInfo = styled.div`
 color: #A9A9A9;
 .img {

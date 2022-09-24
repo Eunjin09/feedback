@@ -57,7 +57,7 @@ li{
 const TopBar = styled.div`
 position: absolute;
 display: inline-block; 
-top: 0; left: 16vw;
+top: 0; left: 15vw;
 width: 84vw;
 height: 7.7vw;
 padding:0 75px;
