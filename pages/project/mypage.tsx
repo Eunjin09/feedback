@@ -17,6 +17,35 @@ export default function mypage() {
           <SecessionBtn>회원탈퇴</SecessionBtn>
         </Content>
       </MyinfoWrap>
+      <MyprojectBox>
+      <Title>나의 프로젝트</Title>
+      <ProjectWrap>
+        <ProjectBox>
+          <BoxTitle>프로젝트명</BoxTitle>
+          <BoxSub>어쩌구 저쩌구</BoxSub>
+        </ProjectBox>
+        <ProjectBox>
+          <BoxTitle>프로젝트명</BoxTitle>
+          <BoxSub>어쩌구 저쩌구</BoxSub>
+        </ProjectBox>
+        <ProjectBox>
+          <BoxTitle>프로젝트명</BoxTitle>
+          <BoxSub>어쩌구 저쩌구</BoxSub>
+        </ProjectBox>
+        <ProjectBox>
+          <BoxTitle>프로젝트명</BoxTitle>
+          <BoxSub>어쩌구 저쩌구</BoxSub>
+        </ProjectBox>
+        <ProjectBox>
+          <BoxTitle>프로젝트명</BoxTitle>
+          <BoxSub>어쩌구 저쩌구</BoxSub>
+        </ProjectBox>
+        <ProjectBox>
+          <BoxTitle>프로젝트명</BoxTitle>
+          <BoxSub>어쩌구 저쩌구</BoxSub>
+        </ProjectBox>
+      </ProjectWrap>
+    </MyprojectBox>
     </Wrap>
   );
 }
@@ -59,4 +88,38 @@ const SecessionBtn = styled.button`
   line-height: 18px;
   color: #b63d3d;
   margin-left: 15px;
+`;
+
+const MyprojectBox = styled.div``;
+const ProjectWrap = styled.div`
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 6%;
+  column-gap: 3%;
+`;
+const ProjectBox = styled.div`
+  width: 100%;
+  height: 289px;
+  background: #d9d9d9;
+  border-radius: 18px;
+  position: relative;
+`;
+const BoxTitle = styled.div`
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 41px;
+  position: absolute;
+  bottom: 20%;
+  box-sizing: border-box;
+  padding-left: 15px;
+`;
+const BoxSub = styled.div`
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 28px;
+  position: absolute;
+  bottom: 5%;
+  box-sizing: border-box;
+  padding-left: 15px;
 `;
