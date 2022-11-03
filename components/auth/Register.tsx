@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import AuthHeader from "./AuthHeader";
@@ -12,7 +12,12 @@ const Register = () => {
 		emailConfirm: useRef(null),
 		nickname: useRef(null),
 	};
-
+	//회원가입 버튼 클릭시 
+	const RegisterBtn=(e:FormEvent)=>{
+		e.preventDefault();
+		const data = ref.id.current
+		console.log(data)
+	}
 	return (
 		<Form>
 			<AuthHeader
@@ -29,47 +34,47 @@ const Register = () => {
 				<Line>
 					<span>아이디</span>
 					<Field>
-						<Input type="text" />
+						<Input type="text" ref={ref.id}/>
 						<Button>중복검사</Button>
 					</Field>
 				</Line>
 				<Line>
 					<span>비밀번호</span>
 					<Field>
-						<Input type="text" />
+						<Input type="text" ref={ref.password} />
 						<Button>중복검사</Button>
 					</Field>
 				</Line>
 				<Line>
 					<span>비밀번호 확인</span>
 					<Field>
-						<Input type="text" />
+						<Input type="text" ref={ref.passwordConfirm}/>
 					</Field>
 				</Line>
 				<Line>
 					<span>닉네임</span>
 					<Field>
-						<Input type="text" />
+						<Input type="text" ref={ref.nickname}/>
 						<Button>중복검사</Button>
 					</Field>
 				</Line>
 				<Line>
 					<span>이메일</span>
 					<Field>
-						<Input type="text" />
+						<Input type="text" ref={ref.email}/>
 						<Button>체크</Button>
 					</Field>
 				</Line>
 				<Line>
 					<span>이메일 확인</span>
 					<Field>
-						<Input type="text" />
+						<Input type="text" ref={ref.emailConfirm}/>
 						<Button>확인</Button>
 					</Field>
 				</Line>
 			</div>
 			<div className="w-full">
-				<button className="w-full p-20 border-1 rounded-10 bg-[#4C70CE] text-[#FFFFFF]">
+				<button onClick={RegisterBtn} className="w-full p-20 border-1 rounded-10 bg-[#4C70CE] text-[#FFFFFF]">
 					회원가입
 				</button>
 			</div>
