@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
+import Modal from "../common/Modal";
 import AuthHeader from "./AuthHeader";
 
 const Register = () => {
@@ -14,27 +15,48 @@ const Register = () => {
     nickname: useRef<HTMLInputElement>(null),
   };
 
+  const data = {
+    userId: ref.id.current?.value,
+    password: ref.password.current?.value,
+    email: ref.email.current?.value,
+    nickname: ref.nickname.current?.value,
+  };
+
+  //회원가입 버튼 누를 시 서버에 데이터 보내기
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    const data = {
-      userId: ref.id.current?.value,
-      password: ref.password.current?.value,
-      email: ref.email.current?.value,
-      nickname: ref.nickname.current?.value,
-    };
     axios
       .post(` http://52.78.88.12/api/user/signup`, data)
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
-        //아이디인지 이메일인지 모르겠음. 같은형식으로 두번 보냈을떄 에러남
-        // 마찬가지로 아무것도 안쓴상태에서 보내면 에러남
         if (error.message === "Network Error") {
           console.log("네트워크에러입니다.");
         }
       });
   };
+
+  //회원가입 중복검사 버튼
+  const check = (e: any) => {
+    // console.log(e.target.value);
+    const value = e.target.value;
+    if (value === "idCheck") {
+      axios
+        .post(` http://54.180.121.151:8000/api/user/confirmId`, {
+          userId: data.userId,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          if (error.message === "Network Error") {
+            console.log("네트워크에러입니다.");
+          }
+        });
+    }
+  };
+
   const [inputToggle, setInputToggle] = useState({
     id: false,
     password: false,
@@ -43,6 +65,7 @@ const Register = () => {
   });
   const { id, password, email, nickname } = inputToggle;
 
+  //값이있는지 없는지 체크후 버튼색바꾸기, 나중에 유효성검사도 넣기 (수정)
   const ToggleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     if (name === "id" && value !== "") {
@@ -87,99 +110,131 @@ const Register = () => {
       });
     }
   };
+  const [test, setTest] = useState(false);
   return (
-    <Form>
-      <AuthHeader
-        onBack={() => {
-          console.log("back");
-        }}
-        onClose={() => {
-          console.log("close");
-        }}
-      >
-        SignUp
-      </AuthHeader>
-      <div>
-        <Line>
-          <span>아이디</span>
-          <Field>
-            <Input
-              type="text"
-              name="id"
-              ref={ref.id}
-              onChange={ToggleHandler}
-            />
-            <Button type="button" className={inputToggle.id ? "active" : ""}>
-              중복검사
-            </Button>
-          </Field>
-        </Line>
-        <Line>
-          <span>비밀번호</span>
-          <Field>
-            <Input
-              type="text"
-              name="password"
-              ref={ref.password}
-              onChange={ToggleHandler}
-            />
-            <Button
-              type="button"
-              className={inputToggle.password ? "active" : ""}
-            >
-              중복검사
-            </Button>
-          </Field>
-        </Line>
-        <Line>
-          <span>비밀번호 확인</span>
-          <Field>
-            <Input type="text" ref={ref.passwordConfirm} />
-          </Field>
-        </Line>
-        <Line>
-          <span>닉네임</span>
-          <Field>
-            <Input
-              type="text"
-              name="nickname"
-              ref={ref.nickname}
-              onChange={ToggleHandler}
-            />
-            <Button className={inputToggle.nickname ? "active" : ""}>
-              중복검사
-            </Button>
-          </Field>
-        </Line>
-        <Line>
-          <span>이메일</span>
-          <Field>
-            <Input
-              type="text"
-              name="email"
-              ref={ref.email}
-              onChange={ToggleHandler}
-            />
-            <Button className={inputToggle.email ? "active" : ""}>체크</Button>
-          </Field>
-        </Line>
-        <Line>
-          <span>이메일 확인</span>
-          <Field>
-            <Input type="text" ref={ref.emailConfirm} />
-            <Button>확인</Button>
-          </Field>
-        </Line>
-      </div>
-      <div className="w-full">
-        <button
-          className="w-full p-20 border-1 rounded-10 bg-[#4C70CE] text-[#FFFFFF]"
-          onClick={submitHandler}
+    <>
+      {test && (
+        <Modal
+          onClose={() => {
+            setTest(false);
+          }}
+          text="확인이 완료되었습니다."
+        />
+      )}
+      <Form>
+        <AuthHeader
+          onBack={() => {
+            console.log("back");
+          }}
+          onClose={() => {
+            console.log("close");
+          }}
         >
-          회원가입
-        </button>
-      </div>
-    </Form>
+          SignUp
+        </AuthHeader>
+        <div>
+          <Line>
+            <span>아이디</span>
+            <Field>
+              <Input
+                type="text"
+                name="id"
+                ref={ref.id}
+                onChange={ToggleHandler}
+              />
+              <Button
+                type="button"
+                className={inputToggle.id ? "active" : ""}
+                value="idCheck"
+                onClick={check}
+              >
+                중복검사
+              </Button>
+            </Field>
+          </Line>
+          <Line>
+            <span>비밀번호</span>
+            <Field>
+              <Input
+                type="text"
+                name="password"
+                ref={ref.password}
+                onChange={ToggleHandler}
+              />
+              <Button
+                type="button"
+                className={inputToggle.password ? "active" : ""}
+                value="passwordCheck"
+                onClick={check}
+              >
+                중복검사
+              </Button>
+            </Field>
+          </Line>
+          <Line>
+            <span>비밀번호 확인</span>
+            <Field>
+              <Input type="text" ref={ref.passwordConfirm} />
+            </Field>
+          </Line>
+          <Line>
+            <span>닉네임</span>
+            <Field>
+              <Input
+                type="text"
+                name="nickname"
+                ref={ref.nickname}
+                onChange={ToggleHandler}
+              />
+              <Button
+                type="button"
+                className={inputToggle.nickname ? "active" : ""}
+                value="nicknameCheck"
+                onClick={check}
+              >
+                중복검사
+              </Button>
+            </Field>
+          </Line>
+          <Line>
+            <span>이메일</span>
+            <Field>
+              <Input
+                type="text"
+                name="email"
+                ref={ref.email}
+                onChange={ToggleHandler}
+              />
+              <Button
+                type="button"
+                className={inputToggle.email ? "active" : ""}
+                value="emailCheck"
+                onClick={check}
+              >
+                체크
+              </Button>
+            </Field>
+          </Line>
+          <Line>
+            <span>이메일 확인</span>
+            <Field>
+              <Input type="text" ref={ref.emailConfirm} />
+              <Button type="button" value="emailConfirm" onClick={check}>
+                확인
+              </Button>
+            </Field>
+          </Line>
+        </div>
+        <div className="w-full">
+          <button
+            className="w-full p-20 border-1 rounded-10 bg-[#4C70CE] text-[#FFFFFF]"
+            onClick={submitHandler}
+          >
+            회원가입
+          </button>
+        </div>
+      </Form>
+    </>
   );
 };
 
