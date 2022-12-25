@@ -41,7 +41,21 @@ const Register = () => {
   const check = (e: any) => {
     // console.log(e.target.value);
     const value = e.target.value;
+    //아이디 중복검사
     if (value === "idCheck") {
+      axios
+        .post(` http://54.180.121.151:8000/api/user/confirmId`, {
+          userId: data.userId,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          if (error.message === "Network Error") {
+            console.log("네트워크에러입니다.");
+          }
+        });
+    } else if (value === "nicknameCheck") {
       axios
         .post(` http://54.180.121.151:8000/api/user/confirmId`, {
           userId: data.userId,
