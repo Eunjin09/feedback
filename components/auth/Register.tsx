@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
+import {
+  email_check,
+  id_check,
+  nickname_check,
+  sing_up,
+} from "../../pages/api/singupAPI";
 import Modal from "../common/Modal";
 import AuthHeader from "./AuthHeader";
 
@@ -22,52 +28,24 @@ const Register = () => {
     nickname: ref.nickname.current?.value,
   };
 
-  //회원가입 버튼 누를 시 서버에 데이터 보내기
+  //회원가입 버튼
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    axios
-      .post(` http://52.78.88.12/api/user/signup`, data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        if (error.message === "Network Error") {
-          console.log("네트워크에러입니다.");
-        }
-      });
+    sing_up(data);
   };
-
+  const [emailConfirm, setEmailConfirm] = useState(false);
   //회원가입 중복검사 버튼
   const check = (e: any) => {
     // console.log(e.target.value);
     const value = e.target.value;
     //아이디 중복검사
     if (value === "idCheck") {
-      axios
-        .post(` http://54.180.121.151:8000/api/user/confirmId`, {
-          userId: data.userId,
-        })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          if (error.message === "Network Error") {
-            console.log("네트워크에러입니다.");
-          }
-        });
+      id_check(data);
     } else if (value === "nicknameCheck") {
-      axios
-        .post(` http://54.180.121.151:8000/api/user/confirmId`, {
-          userId: data.userId,
-        })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          if (error.message === "Network Error") {
-            console.log("네트워크에러입니다.");
-          }
-        });
+      nickname_check(data);
+    } else if (value === "emailCheck") {
+      email_check(data);
+      setEmailConfirm(true);
     }
   };
 
@@ -175,20 +153,20 @@ const Register = () => {
                 ref={ref.password}
                 onChange={ToggleHandler}
               />
-              <Button
-                type="button"
-                className={inputToggle.password ? "active" : ""}
-                value="passwordCheck"
-                onClick={check}
-              >
-                중복검사
-              </Button>
             </Field>
           </Line>
           <Line>
             <span>비밀번호 확인</span>
             <Field>
               <Input type="text" ref={ref.passwordConfirm} />
+              <Button
+                type="button"
+                className={inputToggle.password ? "active" : ""}
+                value="passwordCheck"
+                onClick={check}
+              >
+                확인
+              </Button>
             </Field>
           </Line>
           <Line>
@@ -225,19 +203,21 @@ const Register = () => {
                 value="emailCheck"
                 onClick={check}
               >
-                체크
+                인증
               </Button>
             </Field>
           </Line>
-          <Line>
-            <span>이메일 확인</span>
-            <Field>
-              <Input type="text" ref={ref.emailConfirm} />
-              <Button type="button" value="emailConfirm" onClick={check}>
-                확인
-              </Button>
-            </Field>
-          </Line>
+          {emailConfirm && (
+            <Line>
+              <span>인증번호 입력</span>
+              <Field>
+                <Input type="text" ref={ref.emailConfirm} />
+                <Button type="button" value="emailConfirm" onClick={check}>
+                  확인
+                </Button>
+              </Field>
+            </Line>
+          )}
         </div>
         <div className="w-full">
           <button
