@@ -31,7 +31,7 @@ type CreateUserResponse = {
 
 async function createUser() {
   try {
-    // 👇️ const data: CreateUserResponse
+    // 👇️ const data: CreateUserResponsekkkk
     const { data } = await axios.post<CreateUserResponse>(
       "https://reqres.in/api/users",
       { name: "John Smith", job: "manager" },
