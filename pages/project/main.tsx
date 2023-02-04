@@ -2,12 +2,25 @@ import styled, { css } from "styled-components";
 import tw from "twin.macro";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "react-query";
-import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { getList, getLikeList } from "../../api/project";
 
 export default function Main() {
-  const queryClient = useQueryClient();
+  const [list, setList] = useState([]);
+  const getLists = async () => {
+    const data = await getList();
+    setList(data.data);
+  };
+  const getListss = async () => {
+    const data = await getLikeList();
+    console.log(data);
+    // setList(data.data);
+  };
 
-  const { data } = useQuery("post", () => axios("http://localhost:3003/post"));
+  useEffect(() => {
+    getLists();
+    getListss();
+  }, []);
 
   return (
     <Wrap>
@@ -26,109 +39,120 @@ export default function Main() {
           </Filter>
         </Title>
         <ul>
-          {data &&
-            data.data.map((e: any, i: number) => {
-              return (
-                <Content key="e.id">
-                  <PostImageContainer>
-                    <PostImage
-                      layout="fill"
-                      width="100px"
-                      height="100px"
-                      src={e.img}
-                      alt={e.title}
-                    ></PostImage>
-                    <PostTitle>
-                      <div className="inner">
-                        <h3 className="font-bold mb-8">{e.title}</h3>
-                        <div>
-                          <span className="mr-6 bg-neutral-700">피드백</span>
-                          <span className="bg-amber-400">이벤트</span>
-                        </div>
+          {list?.map((e: any, i: number) => {
+            return (
+              <Content key={e.id}>
+                <PostImageContainer>
+                  {/* <PostImage
+                    layout="fill"
+                    width="100px"
+                    height="100px"
+                    src={`https://cdn.crowdpic.net/list-thumb/thumb_l_4291713E6EC8D22461618B2107D30880.jpg`}
+                  ></PostImage> */}
+                  <PostTitle>
+                    <div className="inner">
+                      <h3 className="font-bold mb-8">{e.title}</h3>
+                      <div>
+                        <span className="mr-6 bg-neutral-700">피드백</span>
+                        <span className="bg-amber-400">이벤트</span>
                       </div>
-                    </PostTitle>
-                  </PostImageContainer>
-                  <Intro>{e.intro}</Intro>
-                  <Keyword>
-                    {e.tag.map((e: any, i: number) => (
-                      <span key={i}>#{e}</span>
-                    ))}
-                  </Keyword>
-                  <PostInfo className="flex justify-between mt-12">
-                    <div className="flex items-center">
-                      <div className="img w-25 h-25 rounded-full mr-5 "></div>
-                      <span>{e.userNick}</span>
                     </div>
-                    <p>2022.09.09 ~ 2022.09.11</p>
-                  </PostInfo>
-                </Content>
-              );
-            })}
+                  </PostTitle>
+                </PostImageContainer>
+                <Intro>{e.intro}</Intro>
+                <Keyword>
+                  {e.tags?.map((e: any, i: number) => (
+                    <span key={i}>#{e}</span>
+                  ))}
+                </Keyword>
+                <PostInfo className="flex justify-between mt-12">
+                  <div className="flex items-center">
+                    <div className="img w-25 h-25 rounded-full mr-5 relative overflow-hidden">
+                      {/* <RankImage
+                        layout="fill"
+                        objectFit="cover"
+                        src={`https://cdn.crowdpic.net/list-thumb/thumb_l_4291713E6EC8D22461618B2107D30880.jpg`}
+                        alt={e.title}
+                      ></RankImage> */}
+                    </div>
+                    <span>{e.userNick}</span>
+                  </div>
+                  <p>2022.09.09 ~ 2022.09.11</p>
+                </PostInfo>
+              </Content>
+            );
+          })}
         </ul>
       </ProjectWrap>
       <SideWrap>
         <h2>주간 인기순</h2>
         <RankWeek>
-          <li className="mb-24 h-158">
-            <img src="" alt="" />
-            <div className="pl-20">
-              <h3>프로젝트명</h3>
-              <h4>닉네임</h4>
-              <p>
-                프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글
-                프로젝트 설명글 프로젝트 설명글 프로젝트 설명글
-              </p>
-            </div>
-          </li>
+          {/* {bestList &&
+            bestList?.data?.map((e: any, i: number) => {
+              return (
+                <li className="mb-24 h-158" key={e.id}>
+                  <RankImageContainer>
+                    <RankImage
+                      layout="fill"
+                      objectFit="cover"
+                      src={e.img}
+                      alt={e.title}
+                    ></RankImage>
+                  </RankImageContainer>
+                  <div className="pl-20">
+                    <h3>{e.title}</h3>
+                    <h4>{e.userNick}</h4>
+                    <p>{e.intro}</p>
+                  </div>
+                </li>
+              );
+            })} */}
         </RankWeek>
         <h2>일간 인기순</h2>
-        <RankDay>
-          <li className="mb-24 h-158">
-            <img src="" alt="" />
-            <div className="pl-20">
-              <h3>프로젝트명</h3>
-              <h4>닉네임</h4>
-              <p>
-                프로젝트 설명글 프로젝트 설명글 프로젝트 설명글 프로젝트 설명글
-                프로젝트 설명글 프로젝트 설명글 프로젝트 설명글
-              </p>
-            </div>
-          </li>
-        </RankDay>
+        {/* <RankDay>
+          {bestList &&
+            bestList.data.map((e: any, i: number) => {
+              return (
+                <li className="mb-24 h-158" key={e.id}>
+                  <RankImageContainer>
+                    <RankImage
+                      layout="fill"
+                      objectFit="cover"
+                      src={e.img}
+                      alt={e.title}
+                    ></RankImage>
+                  </RankImageContainer>
+                  <div className="pl-20">
+                    <h3>{e.title}</h3>
+                    <h4>{e.userNick}</h4>
+                    <p>{e.intro}</p>
+                  </div>
+                </li>
+              );
+            })}
+        </RankDay> */}
         <h2>피드백 랭킹</h2>
         <RankFeed>
-          <ul>
-            <li>
-              <strong>1</strong>
-              <div></div>
-              <p>유저닉네임</p>
-              <span>40</span>
-            </li>
-            <li>
-              <strong>2</strong>
-              <div></div>
-              <p>유저닉네임</p>
-              <span>40</span>
-            </li>
-            <li>
-              <strong>3</strong>
-              <div></div>
-              <p>유저닉네임</p>
-              <span>40</span>
-            </li>
-            <li>
-              <strong>4</strong>
-              <div></div>
-              <p>유저닉네임</p>
-              <span>40</span>
-            </li>
-            <li>
-              <strong>5</strong>
-              <div></div>
-              <p>유저닉네임</p>
-              <span>40</span>
-            </li>
-          </ul>
+          {/* <ul>
+            {feedRankList &&
+              feedRankList.data.map((e: any, i: number) => {
+                return (
+                  <li key={e.id}>
+                    <strong>{i + 1}</strong>
+                    <RankImageContainer>
+                      <RankImage
+                        layout="fill"
+                        objectFit="cover"
+                        src={e.img}
+                        alt={e.title}
+                      ></RankImage>
+                    </RankImageContainer>
+                    <p>{e.userNick}</p>
+                    <span>{e.count}</span>
+                  </li>
+                );
+              })}
+          </ul> */}
         </RankFeed>
       </SideWrap>
     </Wrap>
@@ -199,7 +223,6 @@ const PostImageContainer = styled.div`
 `;
 const PostImage = styled(Image)`
   position: absolute;
-  object-fit: scale-down;
   width: unset !important;
   position: relative !important;
   height: 100% !important;
@@ -258,15 +281,29 @@ const Keyword = styled.div`
 `;
 const PostInfo = styled.div`
   color: #a9a9a9;
-  .img {
-    border: 1px solid #a9a9a9;
-  }
   span {
     font-size: 13px;
   }
   p {
     font-size: 14px;
   }
+`;
+
+const RankImageContainer = styled.div`
+  position: relative;
+  display: block;
+  width: 90vw;
+  height: 100%;
+  border-radius: 15px;
+  background-color: #fff;
+  overflow: hidden;
+`;
+const RankImage = styled(Image)`
+  position: absolute;
+  object-fit: scale-down;
+  width: unset !important;
+  position: relative !important;
+  height: 100% !important;
 `;
 
 //** 일간, 주간, 랭킹 **//
@@ -283,13 +320,6 @@ const SideWrap = styled.aside`
     width: 100%;
     overflow: hidden;
   }
-  img {
-    display: block;
-    width: 14vw;
-    height: 100%;
-    border-radius: 15px;
-    background-color: #fff;
-  }
   h3 {
     font-size: 24px;
   }
@@ -300,6 +330,7 @@ const SideWrap = styled.aside`
     font-size: 16px;
   }
 `;
+
 const RankWeek = styled.ul``;
 const RankDay = styled.ul``;
 const RankFeed = styled.div`
