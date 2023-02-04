@@ -40,18 +40,16 @@ export default function Add() {
     mutateAsync(data);
   }
   //이미지 미리보기
-  const [imageURL, setImageURL] = useState("");
+
   //이미지 파일
   // const test = new FormData();
 
-  const imageHandle = (e: any) => {
-    const testFileReader = new FileReader();
-    testFileReader.readAsDataURL(e.target.files[0]);
-    testFileReader.onload = function (e: any) {
-      setImageURL(e.target.result);
-    };
-    // console.log();
-  };
+  // const imageHandle = (e: any) => {
+  //   const testFileReader = new FileReader();
+  //   testFileReader.readAsDataURL(e.target.files[0]);
+  //   testFileReader.onload = function (e: any) {};
+  //   // console.log();
+  // };
   return (
     <Background>
       {/* Header - no complete */}
@@ -59,18 +57,13 @@ export default function Add() {
       <Content>
         <Box>
           <Wrapper>
-            <div
-              className={`w-full h-500 ${
-                imageURL === "" ? "bg-[#999999]" : `bg-[url(${imageURL})]`
-              } rounded-10`}
-            />
             <label className="w-150 h-50 bg-[#666666] text-[#FFFFFF] flex justify-center items-center rounded-10 mt-10 cursor-pointer">
               이미지 등록
               <input
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={imageHandle}
+                // onChange={imageHandle}
               />
             </label>
           </Wrapper>
