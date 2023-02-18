@@ -16,6 +16,7 @@ export default function Add() {
     titleRef: useRef<HTMLInputElement>(null),
     introRef: useRef<HTMLInputElement>(null),
     contentRef: useRef<HTMLTextAreaElement>(null),
+    tagRef: useRef<HTMLInputElement>(null),
   };
 
   const { mutateAsync } = useMutation(
@@ -29,27 +30,32 @@ export default function Add() {
       });
     }
   );
-
+  //fliter로 빈칸태그 걸러주기
   function addProject(e: FormEvent) {
     const data = {
       title: ref.titleRef.current?.value ?? "",
       intro: ref.introRef.current?.value ?? "",
       content: ref.contentRef.current?.value ?? "",
+      tags: tags,
     };
 
-    mutateAsync(data);
+    // mutateAsync(data);
+    console.log(data);
   }
+
   //이미지 미리보기
 
-  //이미지 파일
-  // const test = new FormData();
+  const imageHanddle = (e: any) => {
+    //이미지 파일 받아서 formdata로 보내주기
+    console.log(1);
+  };
 
-  // const imageHandle = (e: any) => {
-  //   const testFileReader = new FileReader();
-  //   testFileReader.readAsDataURL(e.target.files[0]);
-  //   testFileReader.onload = function (e: any) {};
-  //   // console.log();
-  // };
+  const [tags, setTags] = useState([]);
+  const tagsHanddle = (e: any) => {
+    const data = e.target.value.trim().split("#");
+    setTags(data.splice(1));
+  };
+
   return (
     <Background>
       {/* Header - no complete */}
@@ -63,7 +69,7 @@ export default function Add() {
                 type="file"
                 accept="image/*"
                 className="hidden"
-                // onChange={imageHandle}
+                onChange={imageHanddle}
               />
             </label>
           </Wrapper>
@@ -85,9 +91,12 @@ export default function Add() {
               placeholder="소개글"
               ref={ref.contentRef}
             ></textarea>
-            <div className="w-full h-50 border-1 border-[#999999] mt-20 rounded-10 px-20 flex items-center text-[#666666]">
-              #test #test
-            </div>
+            <input
+              className="w-full h-50 border-1 border-[#999999] mt-20 rounded-10 px-20 flex items-center text-[#666666]"
+              placeholder="#해시태그를 입력해 보세요!"
+              ref={ref.tagRef}
+              onChange={tagsHanddle}
+            />
           </Wrapper>
           <ButtonGroup>
             <button>취소하기</button>
