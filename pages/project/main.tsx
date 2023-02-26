@@ -9,7 +9,7 @@ export default function Main() {
   const [list, setList] = useState([]);
   const getLists = async () => {
     const data = await getList();
-    setList(data.data);
+    setList(data?.data);
   };
   const getListss = async () => {
     const data = await getLikeList();

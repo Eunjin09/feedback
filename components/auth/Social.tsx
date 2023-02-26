@@ -35,7 +35,7 @@ export default function Social({ onClose }: any) {
           <ul>
             <Kakao>
               <Image src={kakao} alt="카카오"></Image>
-              <Link href="http://54.180.121.151:8000/api/user/kakao" passHref>
+              <Link href="http://52.78.88.12/api/user/kakao" passHref>
                 카카오 로그인
               </Link>
             </Kakao>
