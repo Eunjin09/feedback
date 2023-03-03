@@ -2,6 +2,7 @@ import axios from "axios";
 import { getPackedSettings } from "http2";
 import { useState, FormEvent } from "react";
 import styled, { css } from "styled-components";
+
 import instance from "../../pages/api/instance";
 import Register from "./Register";
 
@@ -13,6 +14,9 @@ interface IAddContent {
 }
 
 export default function Login({ onClose, signup }: any) {
+
+  const [isOpen, setIsOpen] = useState(false);
+
   const [userInfo, setUserInfo] = useState({
     userId: "test1234",
     password: "pass1234",
@@ -30,6 +34,7 @@ export default function Login({ onClose, signup }: any) {
     console.log(userInfo);
     const data = mutateAsync(userInfo);
     localStorage.setItem("accessToken", "123123123");
+
     //* 로그인 임의 추가 코드 (상선님 서버 주소는 나중에 env파일로 가릴 필요 있음)
     const res = await axios.post(
       "http://54.180.121.151:8000/api/user/login",
@@ -37,11 +42,13 @@ export default function Login({ onClose, signup }: any) {
     );
     console.log(res);
     sessionStorage.setItem("token", res.data.token);
+
   };
 
   const { mutateAsync } = useMutation(async (userInfo: IAddContent) => {
     return await instance.post(`/api/user/login`, userInfo);
   });
+
 
   const signUpHandler = () => {
     onClose();
@@ -79,6 +86,7 @@ export default function Login({ onClose, signup }: any) {
           회원가입
         </button>
       </Form>
+
     </Wrap>
   );
 }
