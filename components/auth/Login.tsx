@@ -2,7 +2,6 @@ import axios from "axios";
 import { getPackedSettings } from "http2";
 import { useState, FormEvent } from "react";
 import styled, { css } from "styled-components";
-import { getUser } from "../../api/user";
 import instance from "../../pages/api/instance";
 import Register from "./Register";
 
