@@ -11,6 +11,9 @@ instance.interceptors.response.use(
   function (response) {
     //응답에 성공 했을때
     // console.log(response.data);
+    if (response.data.errorMessage) {
+      alert(response.data.errorMessage);
+    }
     return response;
   },
   function (error) {
