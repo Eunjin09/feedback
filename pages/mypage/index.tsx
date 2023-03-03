@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function mypage() {
+export default function MyPage() {
   return (
     <Wrap>
       <MyinfoWrap>
@@ -18,34 +18,34 @@ export default function mypage() {
         </Content>
       </MyinfoWrap>
       <MyprojectBox>
-      <Title>나의 프로젝트</Title>
-      <ProjectWrap>
-        <ProjectBox>
-          <BoxTitle>프로젝트명</BoxTitle>
-          <BoxSub>어쩌구 저쩌구</BoxSub>
-        </ProjectBox>
-        <ProjectBox>
-          <BoxTitle>프로젝트명</BoxTitle>
-          <BoxSub>어쩌구 저쩌구</BoxSub>
-        </ProjectBox>
-        <ProjectBox>
-          <BoxTitle>프로젝트명</BoxTitle>
-          <BoxSub>어쩌구 저쩌구</BoxSub>
-        </ProjectBox>
-        <ProjectBox>
-          <BoxTitle>프로젝트명</BoxTitle>
-          <BoxSub>어쩌구 저쩌구</BoxSub>
-        </ProjectBox>
-        <ProjectBox>
-          <BoxTitle>프로젝트명</BoxTitle>
-          <BoxSub>어쩌구 저쩌구</BoxSub>
-        </ProjectBox>
-        <ProjectBox>
-          <BoxTitle>프로젝트명</BoxTitle>
-          <BoxSub>어쩌구 저쩌구</BoxSub>
-        </ProjectBox>
-      </ProjectWrap>
-    </MyprojectBox>
+        <Title>나의 프로젝트</Title>
+        <ProjectWrap>
+          <ProjectBox>
+            <BoxTitle>프로젝트명</BoxTitle>
+            <BoxSub>어쩌구 저쩌구</BoxSub>
+          </ProjectBox>
+          <ProjectBox>
+            <BoxTitle>프로젝트명</BoxTitle>
+            <BoxSub>어쩌구 저쩌구</BoxSub>
+          </ProjectBox>
+          <ProjectBox>
+            <BoxTitle>프로젝트명</BoxTitle>
+            <BoxSub>어쩌구 저쩌구</BoxSub>
+          </ProjectBox>
+          <ProjectBox>
+            <BoxTitle>프로젝트명</BoxTitle>
+            <BoxSub>어쩌구 저쩌구</BoxSub>
+          </ProjectBox>
+          <ProjectBox>
+            <BoxTitle>프로젝트명</BoxTitle>
+            <BoxSub>어쩌구 저쩌구</BoxSub>
+          </ProjectBox>
+          <ProjectBox>
+            <BoxTitle>프로젝트명</BoxTitle>
+            <BoxSub>어쩌구 저쩌구</BoxSub>
+          </ProjectBox>
+        </ProjectWrap>
+      </MyprojectBox>
     </Wrap>
   );
 }

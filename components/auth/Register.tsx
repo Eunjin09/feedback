@@ -8,10 +8,14 @@ import {
   nickname_check,
   sing_up,
 } from "../../pages/api/singupAPI";
+import instance from "../../utils/axios";
 import Modal from "../common/Modal";
 import AuthHeader from "./AuthHeader";
 
-const Register = () => {
+interface RegisterType {
+  onClose: () => void;
+}
+const Register = ({ onClose }: RegisterType) => {
   const ref = {
     id: useRef<HTMLInputElement>(null),
     password: useRef<HTMLInputElement>(null),
@@ -35,7 +39,7 @@ const Register = () => {
   };
   const [emailConfirm, setEmailConfirm] = useState(false);
   //회원가입 중복검사 버튼
-  const check = (e: any) => {
+  const check = async (e: any) => {
     // console.log(e.target.value);
     const value = e.target.value;
     //아이디 중복검사
@@ -118,9 +122,7 @@ const Register = () => {
           onBack={() => {
             console.log("back");
           }}
-          onClose={() => {
-            console.log("close");
-          }}
+          onClose={onClose}
         >
           SignUp
         </AuthHeader>
@@ -235,7 +237,11 @@ const Register = () => {
 export default Register;
 
 const Form = styled.form`
-  ${tw`px-40 py-30 w-500 border-1`}
+  background-color: white;
+  position: absolute;
+  left: 40%;
+  top: 20%;
+  ${tw`px-40 py-30 w-500 border-1`};
 `;
 
 const Line = styled.div`
