@@ -13,37 +13,22 @@ export default function Nav() {
     setIsSignUp(false);
   };
 
-
   return (
     <Wrap>
       <Menu className="h-full bg-white">
-
-        <h1 className="text-28 text-blue-600 font-bold text-center">
-
+        <h1 className="text-36 text-blue-600 font-bold text-center">
           Feedback
         </h1>
         <ul>
-          <li>
-            <Link href="/">홈</Link>
-          </li>
-          <li>
-            <Link href="/project/add">프로젝트 등록</Link>
-          </li>
-          <li className="active">
-            <Link href="/survey">설문 등록</Link>
-          </li>
-          <li>
-            <Link href="/feedback">피드백</Link>
-          </li>
-          <li>
-            <Link href="/mypage">마이페이지</Link>
-          </li>
+          <li className="active">홈</li>
+          <li>프로젝트 등록</li>
+          <li>설문 등록</li>
+          <li>마이페이지</li>
         </ul>
       </Menu>
       <TopBar>
-
-        <UserInfo onClick={() => setIsLogin(true)}>
-
+        <input type="text" className="search absolute pl-25" />
+        <UserInfo>
           <h2>로그인</h2>
         </UserInfo>
       </TopBar>
@@ -53,28 +38,22 @@ export default function Nav() {
           <LoginWrap>
             <Mascot></Mascot>
             <LoginBox>
-
               {isLogin ? (
                 <Social
                   onClose={() => setIsLogin(false)}
                   signup={() => setIsSignUp(true)}
                 />
               ) : null}
-
             </LoginBox>
           </LoginWrap>
         </>
       ) : null}
-
       {isSignUp ? <Register onClose={signUpHandler} /> : null}
-
     </Wrap>
   );
 }
 
 const Wrap = styled.div``;
-
-
 const LoginBack = styled.div`
   position: fixed;
   z-index: 500;
@@ -104,7 +83,6 @@ const Mascot = styled.div`
   background-size: cover;
 `;
 
-
 const Menu = styled.nav`
   position: fixed;
   z-index: 100;
@@ -127,19 +105,17 @@ const Menu = styled.nav`
     border-radius: 8px;
     font-size: 18px;
   }
-
-  /* .active {
+  .active {
     background: #7d93ff;
     color: #fff;
-  } */
-
+  }
 `;
 
 const TopBar = styled.div`
   position: absolute;
   display: inline-block;
   top: 0;
-  left: 16vw;
+  left: 15vw;
   width: 84vw;
   height: 7.7vw;
   padding: 0 75px;
@@ -165,7 +141,4 @@ const UserInfo = styled.div`
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  h2 {
-    cursor: pointer;
-  }
 `;
