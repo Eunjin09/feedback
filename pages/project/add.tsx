@@ -3,6 +3,7 @@ import { FormEvent, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 import tw from "twin.macro";
+import instance from "../api/instance";
 
 interface IAddContent {
   title: string;
@@ -19,29 +20,33 @@ export default function Add() {
     tagRef: useRef<HTMLInputElement>(null),
   };
 
-  const { mutateAsync } = useMutation(
-    async ({ title, intro, content }: IAddContent) => {
-      return await axios.post(`http://localhost:5001/project/`, {
-        title,
-        intro,
-        imageId: 2,
-        content,
-        tags: ["tag1", "tag2"],
-      });
-    }
-  );
+  // const { mutateAsync } = useMutation(
+  //   async ({ title, intro, content }: IAddContent) => {
+  //     return await axios.post(`http://localhost:5001/project/`, {
+  //       title,
+  //       intro,
+  //       imageId: 2,
+  //       content,
+  //       tags: ["tag1", "tag2"],
+  //     });
+  //   }
+  // );
   //fliter로 빈칸태그 걸러주기
-  function addProject(e: FormEvent) {
+
+  const addProject = async () => {
     const data = {
-      title: ref.titleRef.current?.value ?? "",
-      intro: ref.introRef.current?.value ?? "",
-      content: ref.contentRef.current?.value ?? "",
+      title: ref.titleRef.current?.value,
+      intro: ref.introRef.current?.value,
+      content: ref.contentRef.current?.value,
       tags: tags,
     };
 
     // mutateAsync(data);
     console.log(data);
-  }
+    const res = await instance.post("/api/project", data);
+    console.log(res);
+    // if(res.data.errorMessage)
+  };
 
   //이미지 미리보기
 
