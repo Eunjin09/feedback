@@ -10,7 +10,9 @@ import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
 import Link from "next/link";
 
-export default function Social({ onClose }: any) {
+
+export default function Social({ onClose, signup }: any) {
+
   const [emailLogin, setEmailLogin] = useState(false);
 
   const click = async () => {
@@ -29,7 +31,9 @@ export default function Social({ onClose }: any) {
         Sign In
       </AuthHeader>
       {emailLogin ? (
-        <Login />
+
+        <Login onClose={onClose} signup={signup} />
+
       ) : (
         <>
           <ul>
