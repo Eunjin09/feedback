@@ -73,8 +73,9 @@ export default function Survey() {
           onChanges={onChanges}
           setItem={setItemList}
           item={itemList}
+          s
         ></SurveyItem>
-        <div onClick={send}>저장하기</div>
+        <button onClick={send}>저장하기</button>
       </Container>
     </Wrap>
   );
@@ -88,6 +89,9 @@ const Wrap = styled.div`
 
 const Container = styled.div`
   padding: 0 90px;
+  button {
+    cursor: pointer;
+  }
 `;
 
 const Title = styled.input`
