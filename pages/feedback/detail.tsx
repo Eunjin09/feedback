@@ -4,9 +4,39 @@ import tw from "twin.macro";
 import { useQueryClient } from "react-query";
 import axios from "axios";
 import { useState } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Feedback() {
   const [state, setState] = useState(0);
+
+  const data = {
+    labels: ["1", "2", "3", "4", "5"],
+    datasets: [
+      {
+        label: "# of Votes",
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <Wrap>
       <h1>프로젝트 이름</h1>
@@ -27,6 +57,15 @@ export default function Feedback() {
                 <span>응답4개</span>
               </h2>
               <TypeArea>
+                <div style={{ width: "200px", height: "200px" }}>
+                  <Doughnut
+                    data={data}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: true,
+                    }}
+                  />
+                </div>
                 <ul>
                   <li>신용카드</li>
                   <li>현금</li>
