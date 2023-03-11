@@ -20,15 +20,26 @@ export default function Nav() {
           Feedback
         </h1>
         <ul>
-          <li className="active">홈</li>
-          <li>프로젝트 등록</li>
-          <li>설문 등록</li>
-          <li>마이페이지</li>
+          <li>
+            <Link href="/">홈</Link>
+          </li>
+          <li>
+            <Link href="/project/add">프로젝트 등록</Link>
+          </li>
+          <li className="active">
+            <Link href="/survey">설문 등록</Link>
+          </li>
+          <li>
+            <Link href="/feedback">피드백</Link>
+          </li>
+          <li>
+            <Link href="/mypage">마이페이지</Link>
+          </li>
         </ul>
       </Menu>
       <TopBar>
         <input type="text" className="search absolute pl-25" />
-        <UserInfo>
+        <UserInfo onClick={() => setIsLogin(true)}>
           <h2>로그인</h2>
         </UserInfo>
       </TopBar>
