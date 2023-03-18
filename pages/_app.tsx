@@ -25,7 +25,7 @@ const ExContainer = styled.div`
   left: 0;
   width: 100%;
   padding: 7.7vw 0 0 16vw;
-  background: #f9f9f9;
+  background: #f2f4fa;
   z-index: -1;
 `;
 

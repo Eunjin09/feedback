@@ -118,14 +118,6 @@ const Register = ({ onClose }: RegisterType) => {
         />
       )}
       <Form>
-        <AuthHeader
-          onBack={() => {
-            console.log("back");
-          }}
-          onClose={onClose}
-        >
-          SignUp
-        </AuthHeader>
         <div>
           <Line>
             <span>아이디</span>
@@ -236,13 +228,7 @@ const Register = ({ onClose }: RegisterType) => {
 
 export default Register;
 
-const Form = styled.form`
-  background-color: white;
-  position: absolute;
-  left: 40%;
-  top: 20%;
-  ${tw`px-40 py-30 w-500 border-1`};
-`;
+const Form = styled.form``;
 
 const Line = styled.div`
   ${tw`flex items-center justify-between w-full my-20`}
