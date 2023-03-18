@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 
 export default function Nav() {
   const [isLogin, setIsLogin] = useState(false);
-  const [test, setTest] = useState("home");
   const router = useRouter();
   const PARAMS = router.pathname;
   // console.log(PARAMS);
