@@ -9,7 +9,7 @@ interface IAuthHeader {
 
 const AuthHeader: React.FC<IAuthHeader> = ({ children, onBack, onClose }) => {
   return (
-    <div className="flex items-center justify-between mb-50">
+    <div className="flex items-center justify-between p-20 mb-30">
       {onBack && (
         <span className="flex text-36" onClick={onBack}>
           <IoArrowBackOutline />

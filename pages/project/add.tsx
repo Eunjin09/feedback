@@ -51,6 +51,8 @@ export default function Add() {
   //이미지 미리보기
 
   const imageHanddle = (e: any) => {
+    const formData = new FormData();
+    //  formData.append('photo', s
     //이미지 파일 받아서 formdata로 보내주기
     console.log(1);
   };

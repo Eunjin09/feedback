@@ -9,31 +9,30 @@ import { useState } from "react";
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
 import Link from "next/link";
+import Register from "./Register";
 
-
-export default function Social({ onClose, signup }: any) {
-
+export default function Social({ onClose }: any) {
   const [emailLogin, setEmailLogin] = useState(false);
-
+  const [signup, setSignup] = useState(false);
   const click = async () => {
     const server = "http://54.180.121.151:8000/api/user/kakao";
     await axios.get(`${server}/api/user/kakao`);
   };
 
+  const OnBack = () => {
+    setEmailLogin(false);
+    if (signup) {
+      setSignup(false);
+      setEmailLogin(true);
+    }
+  };
   return (
     <Wrap>
-      <AuthHeader
-        onBack={() => {
-          setEmailLogin(false);
-        }}
-        onClose={onClose}
-      >
-        Sign In
+      <AuthHeader onBack={OnBack} onClose={onClose}>
+        {signup ? "Sign up" : "Sign In"}
       </AuthHeader>
       {emailLogin ? (
-
-        <Login onClose={onClose} signup={signup} />
-
+        <Login onClose={onClose} signup={signup} setSignup={setSignup} />
       ) : (
         <>
           <ul>

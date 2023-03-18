@@ -13,10 +13,8 @@ interface IAddContent {
   password: any;
 }
 
-export default function Login({ onClose, signup }: any) {
-
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function Login({ onClose, signup, setSignup }: any) {
+  // const [isOpen, setIsOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
     userId: "test1234",
     password: "pass1234",
@@ -42,51 +40,48 @@ export default function Login({ onClose, signup }: any) {
     );
     console.log(res);
     sessionStorage.setItem("token", res.data.token);
-
   };
 
   const { mutateAsync } = useMutation(async (userInfo: IAddContent) => {
     return await instance.post(`/api/user/login`, userInfo);
   });
 
-
-  const signUpHandler = () => {
-    onClose();
-    signup();
-  };
   return (
     <Wrap>
-      <Form>
-        <div>
-          <label htmlFor="userId">
-            <input
-              type="text"
-              id="userId"
-              placeholder="아이디"
-              onChange={onChange}
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="password">
-            <input
-              type="password"
-              id="password"
-              placeholder="비밀번호"
-              onChange={onChange}
-            />
-          </label>
-        </div>
-        <button onClick={getInfo}>로그인</button>
-        <Line>
-          <hr />
-          <span>또는</span>
-        </Line>
-        <button className="signup" onClick={signUpHandler}>
-          회원가입
-        </button>
-      </Form>
-
+      {signup ? (
+        <Register onClose={onClose} />
+      ) : (
+        <Form>
+          <div>
+            <label htmlFor="userId">
+              <input
+                type="text"
+                id="userId"
+                placeholder="아이디"
+                onChange={onChange}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="password">
+              <input
+                type="password"
+                id="password"
+                placeholder="비밀번호"
+                onChange={onChange}
+              />
+            </label>
+          </div>
+          <button onClick={getInfo}>로그인</button>
+          <Line>
+            <hr />
+            <span>또는</span>
+          </Line>
+          <button className="signup" onClick={() => setSignup(true)}>
+            회원가입
+          </button>
+        </Form>
+      )}
     </Wrap>
   );
 }

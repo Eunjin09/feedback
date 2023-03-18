@@ -4,15 +4,13 @@ import Social from "../auth/Social";
 import { useState } from "react";
 import Link from "next/link";
 import Register from "../auth/Register";
+import { useRouter } from "next/router";
 
 export default function Nav() {
   const [isLogin, setIsLogin] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
-
-  const signUpHandler = () => {
-    setIsSignUp(false);
-  };
-
+  const router = useRouter();
+  const PARAMS = router.pathname;
+  // console.log(PARAMS);
   return (
     <Wrap>
       <Menu className="h-full bg-white">
@@ -20,19 +18,19 @@ export default function Nav() {
           Feedback
         </h1>
         <ul>
-          <li>
+          <li className={PARAMS === "/" ? "active" : ""}>
             <Link href="/">홈</Link>
           </li>
-          <li>
+          <li className={PARAMS === "/project/add" ? "active" : ""}>
             <Link href="/project/add">프로젝트 등록</Link>
           </li>
-          <li className="active">
+          <li className={PARAMS === "/survey" ? "active" : ""}>
             <Link href="/survey">설문 등록</Link>
           </li>
-          <li>
+          <li className={PARAMS === "/feedback" ? "active" : ""}>
             <Link href="/feedback">피드백</Link>
           </li>
-          <li>
+          <li className={PARAMS === "/mypage" ? "active" : ""}>
             <Link href="/mypage">마이페이지</Link>
           </li>
         </ul>
@@ -47,19 +45,13 @@ export default function Nav() {
         <>
           <LoginBack />
           <LoginWrap>
-            <Mascot></Mascot>
+            <Mascot />
             <LoginBox>
-              {isLogin ? (
-                <Social
-                  onClose={() => setIsLogin(false)}
-                  signup={() => setIsSignUp(true)}
-                />
-              ) : null}
+              {isLogin ? <Social onClose={() => setIsLogin(false)} /> : null}
             </LoginBox>
           </LoginWrap>
         </>
       ) : null}
-      {isSignUp ? <Register onClose={signUpHandler} /> : null}
     </Wrap>
   );
 }
@@ -82,13 +74,13 @@ const LoginWrap = styled.div`
 `;
 
 const LoginBox = styled.div`
-  width: 400px;
-  height: 450px;
+  width: 500px;
+  height: 550px;
   background-color: #fff;
   border-radius: 10px;
 `;
 const Mascot = styled.div`
-  height: 75px;
+  height: 95px;
   background-image: url("asset/image/mascot.png");
   background-repeat: no-repeat;
   background-size: cover;
