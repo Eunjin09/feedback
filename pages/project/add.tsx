@@ -119,11 +119,11 @@ export default function Add() {
 
 const Background = styled.div``;
 const Content = styled.div`
-  ${tw`w-full min-h-[100vh] bg-[#EEEEEE] flex flex-col items-center py-100`}
+  ${tw`w-full min-h-[100vh] bg-[#f2f4fa] flex flex-col items-center py-100`}
 `;
 
 const Box = styled.div`
-  ${tw`w-1000 bg-[#FFFFFF] py-30`}
+  ${tw`w-1000 bg-[#FFFFFF] py-30 rounded-md`}
 `;
 
 const Wrapper = styled.div<{ noPadding?: boolean }>`
