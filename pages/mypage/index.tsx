@@ -9,6 +9,23 @@ export default function MyPage() {
     profileImg:
       "https://img.danawa.com/images/descFiles/5/268/4267661_1590591430238.jpeg",
   };
+
+  //* 데이터 배열형태로 여러개 주는지 여쭤보기
+  const userProject = {
+    id: 2,
+    title: "제목2",
+    intro: "인트로2",
+    content: "내용2",
+    createdAt: "2023-01-14T02:55:17.396Z",
+    updatedAt: "2023-01-14T02:55:17.396Z",
+    userId: 9,
+    userNickname: "aaaaa",
+    imageId: 2,
+    imagePath:
+      "https://cdn.codingworldnews.com/news/photo/202107/4453_6311_1043.jpg",
+    tags: ["라면", "바나나"],
+  };
+
   return (
     <Wrap>
       <MyinfoWrap>
@@ -30,8 +47,9 @@ export default function MyPage() {
         <Title>나의 프로젝트</Title>
         <ProjectWrap>
           <ProjectBox>
-            <BoxTitle>프로젝트명</BoxTitle>
-            <BoxSub>어쩌구 저쩌구</BoxSub>
+            <ProjectImg src={userProject.imagePath} />
+            <BoxTitle>{userProject.title}</BoxTitle>
+            <BoxSub>{userProject.intro}</BoxSub>
           </ProjectBox>
         </ProjectWrap>
       </MyprojectBox>
@@ -96,6 +114,7 @@ const ProjectWrap = styled.div`
   grid-template-columns: repeat(3, 1fr);
   row-gap: 6%;
   column-gap: 3%;
+  /* background-color: red; */
 `;
 const ProjectBox = styled.div`
   width: 100%;
@@ -104,6 +123,13 @@ const ProjectBox = styled.div`
   border-radius: 18px;
   position: relative;
 `;
+
+const ProjectImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+`;
+
 const BoxTitle = styled.div`
   font-weight: 700;
   font-size: 36px;
@@ -112,6 +138,10 @@ const BoxTitle = styled.div`
   bottom: 20%;
   box-sizing: border-box;
   padding-left: 15px;
+  padding-top: 10px;
+  /* padding-bottom: 5px; */
+  background-color: #eee8;
+  width: 100%;
 `;
 const BoxSub = styled.div`
   font-weight: 300;
@@ -121,4 +151,10 @@ const BoxSub = styled.div`
   bottom: 5%;
   box-sizing: border-box;
   padding-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  background-color: #eee8;
+  width: 100%;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
 `;
