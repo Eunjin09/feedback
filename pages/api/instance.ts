@@ -7,7 +7,7 @@ const instance = axios.create({
   //상선님
   // baseURL: "http://54.180.121.151:8000/",
   //수봉님
-  baseURL: "http://52.78.88.12/",
+  //baseURL: "http://52.78.88.12/",
   headers: {
     Authorization: `Bearer ${token}`,
   },

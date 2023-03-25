@@ -1,73 +1,52 @@
 import styled, { css } from "styled-components";
 import tw from "twin.macro";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 type SelectState = {
   selectState: any;
-  setText: any;
+  selOnly: any;
+  setSelOnly: any;
+  listChange: any;
 };
 
 export default function SurveyItemList({
   selectState,
-  setText,
+  setSelOnly,
+  selOnly,
+  listChange,
 }: SelectState): React.ReactElement {
   // 배열
-  const [selOnly, setSelOnly] = useState(["옵션", "옵션"]); // 객관식
-  const [selMulti, setSelMulti] = useState(["중복옵션1", "중복옵션2"]); // 객관식(중복)
-  const [txtSmall, setTxtSmall] = useState("답변"); // 주관식
-
-  const [selOnlys, setSelOnlys] = useState({}); // 객관식
-
-  // 변경
-  const listChange = (e: any) => {
-    const { name, value } = e.target;
-    setSelOnlys({
-      ...selOnlys,
-      [name]: value,
-    });
-
-    if (selectState === "객관식") {
-      console.log(e.target.value);
-      setSelOnly({
-        ...selOnly,
-        [name]: e.target.value,
-      });
-    }
-    if (selectState === "객관식") {
-    }
-    if (selectState === "객관식(중복)") {
-    }
-    if (selectState === "주관식") {
-      setTxtSmall(e.target.value);
-    }
-  };
-  console.log(selOnly);
-
-  useEffect(() => {
-    // setText(["ㅇㅇ"]);
-  }, []);
+  // const [selOnly, setSelOnly] = useState(["옵션"]); // 객관식
+  // const [selMulti, setSelMulti] = useState(["중복옵션1", "중복옵션2"]); // 객관식(중복)
+  // const [txtSmall, setTxtSmall] = useState("답변"); // 주관식
 
   return (
     <div>
       {selectState === "객관식" && (
         <>
           <ul>
-            {selOnly.map((el, idx) => (
+            {selOnly.map((el: any, idx: any) => (
               <li key={idx}>
                 <input type="radio" name={"textName"} />
                 <input
                   type="text"
-                  value={el}
-                  name={"${idx}"}
+                  value={selOnly[idx]}
+                  name={`${idx}`}
                   onChange={listChange}
                 />
               </li>
             ))}
           </ul>
-          <Add>옵션추가</Add>
+          <Add
+            onClick={() => {
+              setSelOnly([...selOnly, "옵션"]);
+            }}
+          >
+            옵션추가
+          </Add>
         </>
       )}
-      {selectState === "객관식(중복)" && (
+      {/* {selectState === "객관식(중복)" && (
         <>
           <ul>
             {selMulti.map((el, idx) => (
@@ -86,14 +65,15 @@ export default function SurveyItemList({
           value={txtSmall}
           onChange={listChange}
         ></ShortForm>
-      )}
+      )} */}
     </div>
   );
 }
 
-const Add = styled.div`
+const Add = styled.button`
   color: #a0a0a0;
   margin-bottom: 18px;
+  cursor: pointer;
 `;
 
 const ShortForm = styled.input`
