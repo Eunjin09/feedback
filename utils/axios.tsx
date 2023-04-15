@@ -1,9 +1,13 @@
 import axios from "axios";
 
 // const token = localStorage.getItem("accessToken");
+const token = sessionStorage.getItem("token");
 
 const instance = axios.create({
   baseURL: "http://52.78.88.12/api",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
   timeout: 5000,
 });
 

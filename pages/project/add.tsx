@@ -1,4 +1,5 @@
 import axios from "axios";
+import Image from "next/image";
 import { FormEvent, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import styled from "styled-components";
@@ -12,6 +13,11 @@ interface IAddContent {
 }
 
 export default function Add() {
+  const [imadeID, setImageID] = useState();
+  const [imgSrc, setImgSrc] = useState(
+    "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"
+  );
+
   const ref = {
     imageRef: useRef(null),
     titleRef: useRef<HTMLInputElement>(null),
@@ -38,12 +44,13 @@ export default function Add() {
       title: ref.titleRef.current?.value,
       intro: ref.introRef.current?.value,
       content: ref.contentRef.current?.value,
+      imageId: imadeID,
       tags: tags,
     };
 
     // mutateAsync(data);
     console.log(data);
-    const res = await instance.post("/api/project", data);
+    const res = await instance.post("/project", data);
     console.log(res);
     // if(res.data.errorMessage)
   };
@@ -52,9 +59,24 @@ export default function Add() {
 
   const imageHanddle = (e: any) => {
     const formData = new FormData();
-    //  formData.append('photo', s
-    //이미지 파일 받아서 formdata로 보내주기
-    console.log(1);
+    console.log(e.target.files[0], "이미지에요");
+    formData.append("file", e.target.files[0]);
+    // instance.post()
+    const token = sessionStorage.getItem("token");
+
+    axios({
+      baseURL: "http://52.78.88.12/api",
+      url: "/file",
+      method: "POST",
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((e) => {
+      console.log(e, "응답왔다");
+      setImageID(e.data.data.id);
+    });
   };
 
   const [tags, setTags] = useState([]);
@@ -76,9 +98,19 @@ export default function Add() {
                 type="file"
                 accept="image/*"
                 className="hidden"
+                ref={ref.imageRef}
                 onChange={imageHanddle}
               />
             </label>
+          </Wrapper>
+          <Wrapper>
+            <div>등록된 이미지</div>
+            <Image
+              src={imgSrc}
+              alt="등록된 이미지"
+              // style={{ width: '30px', height: '30px' }}
+              layout="fill"
+            />
           </Wrapper>
           <Wrapper>
             <input
