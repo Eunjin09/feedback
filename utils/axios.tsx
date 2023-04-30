@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // const token = localStorage.getItem("accessToken");
-const token = sessionStorage.getItem("token");
+const token =
+  typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
 
 const instance = axios.create({
   baseURL: "http://52.78.88.12/api",

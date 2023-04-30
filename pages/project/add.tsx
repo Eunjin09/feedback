@@ -50,8 +50,8 @@ export default function Add() {
 
     // mutateAsync(data);
     console.log(data);
-    const res = await instance.post("/project", data);
-    console.log(res);
+    instance.post("api/project", data).then((res) => console.log(res, "답"));
+    // console.log(res, "응답");
     // if(res.data.errorMessage)
   };
 
@@ -59,13 +59,15 @@ export default function Add() {
 
   const imageHanddle = (e: any) => {
     const formData = new FormData();
+
     console.log(e.target.files[0], "이미지에요");
     formData.append("file", e.target.files[0]);
+
     // instance.post()
     const token = sessionStorage.getItem("token");
 
     axios({
-      baseURL: "http://52.78.88.12/api",
+      baseURL: "http://54.180.121.151:8000/api",
       url: "/file",
       method: "POST",
       data: formData,
@@ -73,10 +75,12 @@ export default function Add() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
-    }).then((e) => {
-      console.log(e, "응답왔다");
-      setImageID(e.data.data.id);
-    });
+    })
+      .then((e) => {
+        console.log(e, "응답왔다");
+        setImageID(e.data.data.id);
+      })
+      .catch((e) => console.log(e));
   };
 
   const [tags, setTags] = useState([]);
@@ -103,15 +107,14 @@ export default function Add() {
               />
             </label>
           </Wrapper>
-          <Wrapper>
+          {/* <Wrapper>
             <div>등록된 이미지</div>
             <Image
               src={imgSrc}
               alt="등록된 이미지"
               // style={{ width: '30px', height: '30px' }}
-              layout="fill"
             />
-          </Wrapper>
+          </Wrapper> */}
           <Wrapper>
             <input
               type="text"

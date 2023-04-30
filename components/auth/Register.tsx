@@ -37,7 +37,11 @@ const Register = ({ onClose }: RegisterType) => {
     event.preventDefault();
     sing_up(data);
   };
-  const [emailConfirm, setEmailConfirm] = useState(false);
+  const [emailConfirm, setEmailConfirm] = useState({
+    state: false,
+    value: "",
+    success: false,
+  });
   //회원가입 중복검사 버튼
   const check = async (e: any) => {
     // console.log(e.target.value);
@@ -45,11 +49,30 @@ const Register = ({ onClose }: RegisterType) => {
     //아이디 중복검사
     if (value === "idCheck") {
       id_check(data);
+    } else if (value === "passwordCheck") {
+      if (ref.passwordConfirm.current!.value === ref.password.current!.value)
+        alert("중복검사가 완료 되었습니다.");
+      else {
+        alert("비밀번호가 달라요!");
+      }
     } else if (value === "nicknameCheck") {
       nickname_check(data);
     } else if (value === "emailCheck") {
-      email_check(data);
-      setEmailConfirm(true);
+      const res = await email_check(data);
+      if (res.data.success) {
+        alert("인증번호 전송이 완료되었습니다.");
+        setEmailConfirm({ ...emailConfirm, state: true, value: res.data.data });
+      } else alert("이미 가입된 이메일입니다.");
+    } else if (value === "emailConfirm") {
+      console.log(ref.emailConfirm.current!.value, "입력값이다.");
+      if (ref.emailConfirm.current!.value !== emailConfirm.value)
+        alert("인증번호가 틀렸습니다.");
+      else {
+        alert("인증이 완료 되었습니다.");
+        setEmailConfirm({ ...emailConfirm, success: true });
+      }
+
+      console.log(emailConfirm.value, "값이다");
     }
   };
 
@@ -58,10 +81,10 @@ const Register = ({ onClose }: RegisterType) => {
     password: false,
     email: false,
     nickname: false,
+    emailConfirm: false,
   });
   const { id, password, email, nickname } = inputToggle;
 
-  //값이있는지 없는지 체크후 버튼색바꾸기, 나중에 유효성검사도 넣기 (수정)
   const ToggleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     if (name === "id" && value !== "") {
@@ -74,7 +97,9 @@ const Register = ({ onClose }: RegisterType) => {
         ...inputToggle,
         id: false,
       });
-    } else if (name === "password" && value !== "") {
+    }
+
+    if (name === "password" && value !== "") {
       setInputToggle({
         ...inputToggle,
         password: true,
@@ -84,7 +109,9 @@ const Register = ({ onClose }: RegisterType) => {
         ...inputToggle,
         password: false,
       });
-    } else if (name === "email" && value !== "") {
+    }
+
+    if (name === "email" && value !== "") {
       setInputToggle({
         ...inputToggle,
         email: true,
@@ -94,7 +121,9 @@ const Register = ({ onClose }: RegisterType) => {
         ...inputToggle,
         email: false,
       });
-    } else if (name === "nickname" && value !== "") {
+    }
+
+    if (name === "nickname" && value !== "") {
       setInputToggle({
         ...inputToggle,
         nickname: true,
@@ -105,18 +134,23 @@ const Register = ({ onClose }: RegisterType) => {
         nickname: false,
       });
     }
+
+    if (name === "emailConfirm" && value !== "") {
+      console.log(123123);
+
+      setInputToggle({
+        ...inputToggle,
+        emailConfirm: true,
+      });
+    } else if (name === "emailConfirm" && value === "") {
+      setInputToggle({
+        ...inputToggle,
+        emailConfirm: false,
+      });
+    }
   };
-  const [test, setTest] = useState(false);
   return (
     <>
-      {test && (
-        <Modal
-          onClose={() => {
-            setTest(false);
-          }}
-          text="확인이 완료되었습니다."
-        />
-      )}
       <Form>
         <div>
           <Line>
@@ -201,12 +235,21 @@ const Register = ({ onClose }: RegisterType) => {
               </Button>
             </Field>
           </Line>
-          {emailConfirm && (
+          {emailConfirm.state && (
             <Line>
               <span>인증번호 입력</span>
               <Field>
-                <Input type="text" ref={ref.emailConfirm} />
-                <Button type="button" value="emailConfirm" onClick={check}>
+                <Input
+                  type="text"
+                  ref={ref.emailConfirm}
+                  onChange={ToggleHandler}
+                />
+                <Button
+                  type="button"
+                  className={inputToggle.emailConfirm ? "active" : ""}
+                  value="emailConfirm"
+                  onClick={check}
+                >
                   확인
                 </Button>
               </Field>
