@@ -6,6 +6,7 @@ import Toggle from "../../components/common/toggle";
 import SurveyItem from "./item";
 import { useState } from "react";
 import React from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export interface InputProp {
   inputChange: () => void;
@@ -69,12 +70,39 @@ export default function Survey() {
     <Wrap>
       <Container>
         <Title placeholder="제목 없는 설문지" type="text" />
-        <SurveyItem
-          onChanges={onChanges}
-          setItem={setItemList}
-          item={itemList}
-          s
-        ></SurveyItem>
+
+        <AiOutlinePlus
+          size={35}
+          style={{
+            backgroundColor: "white",
+            padding: 8,
+            position: "absolute",
+            right: 80,
+            top: 350,
+            cursor: "pointer",
+          }}
+          onClick={() =>
+            setItemList([
+              ...itemList,
+              {
+                qTitle: "",
+                qType: "",
+                qModel: "",
+                qRequired: true,
+                qOrder: 1,
+              },
+            ])
+          }
+        />
+        {itemList.map((el, idx) => (
+          <SurveyItem
+            key={idx}
+            onChanges={onChanges}
+            setItem={setItemList}
+            item={el}
+          />
+        ))}
+
         <button onClick={send}>저장하기</button>
       </Container>
     </Wrap>

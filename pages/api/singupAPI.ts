@@ -1,4 +1,3 @@
-import axios from "axios";
 import { singupType } from "../../types/singUpTypes";
 import instance from "./instance";
 

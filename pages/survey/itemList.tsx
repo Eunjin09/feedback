@@ -21,17 +21,20 @@ export default function SurveyItemList({
   // 변경
   const listChange = (e: any) => {
     const { name, value } = e.target;
-    setSelOnlys({
-      ...selOnlys,
-      [name]: value,
-    });
+    // setSelOnlys({
+    //   ...selOnlys,
+    //   [name]: value,
+    // });
 
     if (selectState === "객관식") {
-      console.log(e.target.value);
-      setSelOnly({
-        ...selOnly,
-        [name]: e.target.value,
-      });
+      if (selOnly[name]) {
+        let newValue = selOnly;
+        newValue[name] = value;
+        // console.log(newValue, 123);
+        setSelOnly(newValue);
+      }
+      // setSelOnly([...selOnly, value]);
+      // setSelOnly({...selOnly});
     }
     if (selectState === "객관식") {
     }
@@ -57,14 +60,23 @@ export default function SurveyItemList({
                 <input type="radio" name={"textName"} />
                 <input
                   type="text"
-                  value={el}
-                  name={"${idx}"}
+                  defaultValue={el}
+                  name={`${idx}`}
                   onChange={listChange}
                 />
               </li>
             ))}
           </ul>
-          <Add>옵션추가</Add>
+          {selOnly.length < 5 && (
+            <Add
+              onClick={() => {
+                //* 옵션 추가하기. 5개까지만
+                setSelOnly([...selOnly, "옵션"]);
+              }}
+            >
+              옵션추가
+            </Add>
+          )}
         </>
       )}
       {selectState === "객관식(중복)" && (

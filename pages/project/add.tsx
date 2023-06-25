@@ -1,6 +1,8 @@
 import axios from "axios";
 import Image from "next/image";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, SetStateAction, useEffect, useRef, useState } from "react";
+import defaultImg from "../../public/asset/image/defalutImg.png";
+import { StaticImageData } from "next/image";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -14,9 +16,12 @@ interface IAddContent {
 
 export default function Add() {
   const [imadeID, setImageID] = useState();
-  const [imgSrc, setImgSrc] = useState(
-    "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"
-  );
+  // const [imgSrc, setImgSrc] = useState<string | ArrayBuffer | null>(
+  //   "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"
+  // );
+  const imgRef = useRef<HTMLImageElement>();
+
+  // const [imgSrc, setImgSrc] = useState();
 
   const ref = {
     imageRef: useRef(null),
@@ -55,38 +60,59 @@ export default function Add() {
     // if(res.data.errorMessage)
   };
 
-  //이미지 미리보기
+  const [imgPreview, setImgPreview] = useState<
+    String | ArrayBuffer | null | StaticImageData
+  >(defaultImg);
+  useEffect(() => {
+    console.log(imgPreview, "test");
+  }, [imgPreview]);
+  //이미지파일 폼데이터 변환
+  const imageHanddle = (file: File) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      return new Promise<void>((resolve) => {
+        reader.onload = () => {
+          setImgPreview(reader.result);
+          resolve();
+        };
+      });
+    }
+    // const formData = new FormData();
 
-  const imageHanddle = (e: any) => {
-    const formData = new FormData();
+    // console.log(file, "이미지에요");
+    // formData.append("file", file);
 
-    console.log(e.target.files[0], "이미지에요");
-    formData.append("file", e.target.files[0]);
+    // const token = sessionStorage.getItem("token");
 
-    // instance.post()
-    const token = sessionStorage.getItem("token");
-
-    axios({
-      baseURL: "http://54.180.121.151:8000/api",
-      url: "/file",
-      method: "POST",
-      data: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    })
-      .then((e) => {
-        console.log(e, "응답왔다");
-        setImageID(e.data.data.id);
-      })
-      .catch((e) => console.log(e));
+    // axios({
+    //   baseURL: "http://54.180.121.151:8000/api",
+    //   url: "/file",
+    //   method: "POST",
+    //   data: formData,
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // })
+    //   .then((e) => {
+    //     console.log(e, "응답왔다");
+    //     setImageID(e.data.data.id);
+    //   })
+    //   .catch((e) => console.log(e));
   };
 
   const [tags, setTags] = useState([]);
   const tagsHanddle = (e: any) => {
     const data = e.target.value.trim().split("#");
     setTags(data.splice(1));
+  };
+  useEffect(() => {
+    getSurvey();
+  }, []);
+  const getSurvey = () => {
+    const res = instance.get("/api/survey");
+    console.log(res);
   };
 
   return (
@@ -96,6 +122,16 @@ export default function Add() {
       <Content>
         <Box>
           <Wrapper>
+            {/* <div style={{ width: "90%", height: 100 }}> */}
+            <Image
+              src={imgPreview as string}
+              layout="responsive"
+              width="100%"
+              height="50%"
+              alt="프로필 이미지 미리보기"
+              style={{ borderRadius: 10 }}
+            />
+            {/* </div> */}
             <label className="w-150 h-50 bg-[#666666] text-[#FFFFFF] flex justify-center items-center rounded-10 mt-10 cursor-pointer">
               이미지 등록
               <input
@@ -103,18 +139,10 @@ export default function Add() {
                 accept="image/*"
                 className="hidden"
                 ref={ref.imageRef}
-                onChange={imageHanddle}
+                onChange={(e) => imageHanddle(e.target.files![0])}
               />
             </label>
           </Wrapper>
-          {/* <Wrapper>
-            <div>등록된 이미지</div>
-            <Image
-              src={imgSrc}
-              alt="등록된 이미지"
-              // style={{ width: '30px', height: '30px' }}
-            />
-          </Wrapper> */}
           <Wrapper>
             <input
               type="text"
@@ -139,6 +167,7 @@ export default function Add() {
               ref={ref.tagRef}
               onChange={tagsHanddle}
             />
+            <div>설문등록</div>
           </Wrapper>
           <ButtonGroup>
             <button>취소하기</button>
